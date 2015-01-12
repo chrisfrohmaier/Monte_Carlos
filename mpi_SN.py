@@ -1,3 +1,4 @@
+#Test
 from mpi4py import MPI
 import matplotlib
 matplotlib.use('Agg')
@@ -13,11 +14,11 @@ colors = brewer2mpl.get_map('Set3', 'Qualitative', 12).mpl_colors
 import time as TI
 
 ##Connecting to the Database
-conn = psycopg2.connect("dbname=SN_Sim user=cf5g09")
+conn = psycopg2.connect(host='srv01050.soton.ac.uk', user='frohmaier', password='rates', database='frohmaier')
 cur = conn.cursor()
-conn2 = psycopg2.connect("dbname=SN_Sim user=cf5g09")
+conn2 = psycopg2.connect(host='srv01050.soton.ac.uk', user='frohmaier', password='rates', database='frohmaier')
 cur2=conn2.cursor()
-conn3 = psycopg2.connect("dbname=SN_Sim user=cf5g09")
+conn3 = psycopg2.connect(host='srv01050.soton.ac.uk', user='frohmaier', password='rates', database='frohmaier')
 cur3 = conn3.cursor()
 cur.execute("SELECT DISTINCT ON (ujd) ujd from obs ORDER BY ujd;")
 d=cur.fetchall()
@@ -137,7 +138,7 @@ my_rank = MPI.COMM_WORLD.Get_rank()
 my_node = MPI.Get_processor_name()    
 # Node where this MPI process runs
 
-N_MODELS_TOTAL = 10000000  # total number of models to run
+N_MODELS_TOTAL = 1000  # total number of models to run
 n_models = N_MODELS_TOTAL / nproc
 # number of models for each thread
 
@@ -163,8 +164,8 @@ for i in range( my_nmin, my_nmax):
 	t_ccd=[]
 	for j in range(0,len(time)):
 		#print time[i]
-		this_ccd, not_detect_prob=which_ccd(time[j], ra, dec)
-		probs.append(not_detect_prob)
+		#this_ccd, not_detect_prob=which_ccd(time[j], ra, dec)
+		probs.append(0)
 		t_ccd.append(this_ccd)
 		#print this_ccd
 		#print probs	
